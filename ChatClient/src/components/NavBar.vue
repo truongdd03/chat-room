@@ -59,8 +59,4 @@ const showNav = ref(false);
 .navbar-item {
   height: 100%;
 }
-
-.input {
-  color: white;
-}
 </style>

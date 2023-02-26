@@ -1,13 +1,14 @@
 <template>
   <div class="wrapper">
-    <div class="chat-header">
-      <ChatHeader></ChatHeader>
-    </div>
+    <ChatHeader style="height: 50px"></ChatHeader>
+    <div class="chat-content"></div>
+    <ChatFooter style="height: 70px"></ChatFooter>
   </div>
 </template>
 
 <script lang="ts" setup>
 import ChatHeader from "./ChatHeader.vue";
+import ChatFooter from "./ChatFooter.vue";
 </script>
 
 <style scoped>
@@ -16,7 +17,7 @@ import ChatHeader from "./ChatHeader.vue";
   width: 100%;
 }
 
-.chat-header {
-  height: 10px;
+.chat-content {
+  height: calc(100% - 120px);
 }
 </style>

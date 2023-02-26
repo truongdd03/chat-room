@@ -8,10 +8,14 @@ import "./assets/main.css";
 
 import Notifications from "@kyvg/vue3-notification";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsis,
+  faPaperPlane,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-const icons = [faSearch, faEllipsis];
+const icons = [faSearch, faEllipsis, faPaperPlane];
 
 icons.forEach((icon) => library.add(icon));
 

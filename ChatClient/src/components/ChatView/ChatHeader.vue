@@ -7,7 +7,11 @@
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
-        <font-awesome-icon class="icon" icon="fa-solid fa-ellipsis" inverse />
+        <font-awesome-icon
+          class="icon has-text-primary"
+          icon="fa-solid fa-ellipsis"
+          inverse
+        />
       </div>
     </div>
   </nav>

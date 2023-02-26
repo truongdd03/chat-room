@@ -72,6 +72,10 @@ input {
   cursor: pointer;
 }
 
+.input {
+  color: white;
+}
+
 body {
   min-height: 100vh;
   color: var(--color-text);

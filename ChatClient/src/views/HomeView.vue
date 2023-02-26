@@ -5,10 +5,10 @@
     </div>
     <Splitpanes class="content-wrapper">
       <Pane style="min-width: 300px" size="20">
-        <ListingView style="width: 100%"></ListingView>
+        <ListingView style="width: 100%; height: 100%"></ListingView>
       </Pane>
       <Pane min-size="40">
-        <ChatView style="width: 100%"></ChatView>
+        <ChatView style="width: 100%; height: 100%"></ChatView>
       </Pane>
     </Splitpanes>
   </div>
@@ -45,7 +45,7 @@ onMounted(() => {
 .wrapper {
   height: 100vh;
   width: 100vw;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 
 .navbar-wrapper {
