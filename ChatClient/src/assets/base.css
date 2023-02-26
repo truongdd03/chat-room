@@ -64,6 +64,14 @@ input {
   font-weight: normal;
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.icon {
+  cursor: pointer;
+}
+
 body {
   min-height: 100vh;
   color: var(--color-text);

@@ -4,11 +4,11 @@
       <NavBar></NavBar>
     </div>
     <Splitpanes class="content-wrapper">
-      <Pane min-size="20" size="20">
-        <ListingView></ListingView>
+      <Pane style="min-width: 300px" size="20">
+        <ListingView style="width: 100%"></ListingView>
       </Pane>
       <Pane min-size="40">
-        <ChatView></ChatView>
+        <ChatView style="width: 100%"></ChatView>
       </Pane>
     </Splitpanes>
   </div>
@@ -24,8 +24,8 @@ import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 
 import NavBar from "@/components/NavBar.vue";
-import ListingView from "@/components/ListingView.vue";
-import ChatView from "@/components/ChatView.vue";
+import ListingView from "@/components/ListingView/ListingView.vue";
+import ChatView from "@/components/ChatView/ChatView.vue";
 
 const store = useStore();
 
@@ -45,6 +45,7 @@ onMounted(() => {
 .wrapper {
   height: 100vh;
   width: 100vw;
+  overflow-y: hidden;
 }
 
 .navbar-wrapper {
