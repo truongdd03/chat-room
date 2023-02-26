@@ -1,26 +1,64 @@
 <template>
   <div class="wrapper">
-    <input class="input has-background-dark	is-primary has-text-white is-large" placeholder="Enter your name...">
-    <p class="button is-primary is-large ml-2">Join!</p>
+    <div class="navbar-wrapper">
+      <NavBar></NavBar>
+    </div>
+    <Splitpanes class="content-wrapper">
+      <Pane min-size="20" size="20">
+        <ListingView></ListingView>
+      </Pane>
+      <Pane min-size="40">
+        <ChatView></ChatView>
+      </Pane>
+    </Splitpanes>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
+import router from "@/router";
+import { notify } from "@kyvg/vue3-notification";
+import { onMounted } from "vue";
+import { useStore } from "vuex";
+
+import { Splitpanes, Pane } from "splitpanes";
+import "splitpanes/dist/splitpanes.css";
+
+import NavBar from "@/components/NavBar.vue";
+import ListingView from "@/components/ListingView.vue";
+import ChatView from "@/components/ChatView.vue";
+
+const store = useStore();
+
+onMounted(() => {
+  if (!store || store.state.username == "") {
+    // router.push("/");
+  } else {
+    notify({
+      title: `Welcome ${store.state.username}`,
+      type: "success",
+    });
+  }
+});
 </script>
 
 <style scoped>
 .wrapper {
   height: 100vh;
   width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.input {
-  width: 50vw;
 }
 
-.button {
-  width: 200px;
+.navbar-wrapper {
+  height: 60px;
+}
+
+.content-wrapper {
+  height: calc(100% - 60px);
+}
+</style>
+
+<style>
+.splitpanes__splitter {
+  background-color: var(--vt-c-black);
+  width: 5px;
 }
 </style>
