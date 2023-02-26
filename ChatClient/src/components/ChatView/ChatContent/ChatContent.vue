@@ -1,17 +1,22 @@
 <template>
   <div class="content-wrapper">
-    <MyMessage
-      v-for="message in messages"
-      v-bind:key="message.id"
-      :message="message"
-    ></MyMessage>
+    <div v-for="message in messages" v-bind:key="message.id">
+      <MyMessage
+        v-if="message.ownerId == store.state.username"
+        :message="message"
+      ></MyMessage>
+      <OtherMessage v-else :message="message"></OtherMessage>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useStore } from "vuex";
 import type { Message } from "@/types/Message";
-
 import MyMessage from "./MyMessage.vue";
+import OtherMessage from "./OtherMessage.vue";
+
+const store = useStore();
 
 defineProps({
   messages: Array<Message>,

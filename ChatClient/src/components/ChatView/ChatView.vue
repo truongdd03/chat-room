@@ -12,12 +12,17 @@ import ChatFooter from "./ChatFooter.vue";
 import ChatContent from "./ChatContent/ChatContent.vue";
 import { ref, type Ref } from "vue";
 import type { Message } from "@/types/Message";
+import { useStore } from "vuex";
 
-const messages: Ref<Array<Message>> = ref([]);
+const store = useStore();
+
+const messages: Ref<Array<Message>> = ref([
+  { id: "0", message: "Hello how are you?", ownerId: "Pikachu" },
+]);
 
 const onSendMessage = ($event: any) => {
   const id = messages.value.length.toString();
-  messages.value.push({ id, message: $event });
+  messages.value.push({ id, message: $event, ownerId: store.state.username });
 };
 </script>
 
