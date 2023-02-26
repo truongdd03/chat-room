@@ -31,7 +31,7 @@
           </p>
         </div>
         <div class="navbar-item">
-          <a class="button is-dark"> Log out </a>
+          <RouterLink to="/" class="button is-dark"> Log out </RouterLink>
         </div>
       </div>
     </div>

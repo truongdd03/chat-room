@@ -23,6 +23,7 @@
   height: 100%;
   background-color: var(--vt-c-black-soft);
   padding: 0 10px 0 10px;
+  border-bottom: solid 2px var(--vt-c-black);
 }
 
 .navbar-item {
