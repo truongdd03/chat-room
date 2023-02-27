@@ -1,14 +1,45 @@
 <template>
   <div class="wrapper">
-    <ListingModal :chat-name="'Public'" :selected-listing="selectedListing"></ListingModal>
+    <ListingHeader
+      style="height: 50px; width: 100%"
+      @add-user="onAddUser"
+    ></ListingHeader>
+    <ListingModal
+      v-for="chatName in chatNames"
+      v-bind:key="chatName"
+      :chat-name="chatName"
+      :selected-listing="selectedListing"
+      @select-listing="selectListing($event)"
+    ></ListingModal>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, type Ref } from "vue";
 import ListingModal from "./ListingModal.vue";
+import ListingHeader from "./ListingHeader.vue";
+import { useStore, type Store } from "vuex";
+import type { StoreData } from "@/types/StoreData";
 
-const selectedListing: Ref<string> = ref("Public");
+const store: Store<StoreData> = useStore();
+
+const chatNames: Ref<Array<string>> = ref(["Public"]);
+
+defineProps({
+  selectedListing: String,
+});
+
+const emit = defineEmits(["select-listing"]);
+
+const selectListing = (username: string) => {
+  emit("select-listing", username);
+};
+
+const onAddUser = (username: string) => {
+  store.state.messages[username] = [];
+  chatNames.value.unshift(username);
+  selectListing(username);
+};
 </script>
 
 <style scoped>

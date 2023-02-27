@@ -11,12 +11,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faEllipsis,
   faPaperPlane,
+  faPlusCircle,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import type { StoreData } from "./types/StoreData";
 
-const icons = [faSearch, faEllipsis, faPaperPlane];
+const icons = [faSearch, faEllipsis, faPaperPlane, faPlusCircle];
 
 icons.forEach((icon) => library.add(icon));
 

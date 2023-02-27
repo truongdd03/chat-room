@@ -5,10 +5,17 @@
     </div>
     <Splitpanes class="content-wrapper">
       <Pane style="min-width: 300px" size="20">
-        <ListingView style="width: 100%; height: 100%"></ListingView>
+        <ListingView
+          style="width: 100%; height: 100%"
+          :selected-listing="selectedListing"
+          @select-listing="onListingSelected"
+        ></ListingView>
       </Pane>
       <Pane min-size="40">
-        <ChatView style="width: 100%; height: 100%"></ChatView>
+        <ChatView
+          style="width: 100%; height: 100%"
+          :selected-listing="selectedListing"
+        ></ChatView>
       </Pane>
     </Splitpanes>
   </div>
@@ -17,7 +24,7 @@
 <script lang="ts" setup>
 import router from "@/router";
 import { notify } from "@kyvg/vue3-notification";
-import { onMounted } from "vue";
+import { onMounted, ref, type Ref } from "vue";
 import { useStore } from "vuex";
 
 import { Splitpanes, Pane } from "splitpanes";
@@ -29,6 +36,8 @@ import ChatView from "@/components/ChatView/ChatView.vue";
 
 const store = useStore();
 
+const selectedListing: Ref<string> = ref("Public");
+
 onMounted(() => {
   if (!store || store.state.username == "") {
     // router.push("/");
@@ -39,6 +48,10 @@ onMounted(() => {
     });
   }
 });
+
+const onListingSelected = (username: string) => {
+  selectedListing.value = username;
+};
 </script>
 
 <style scoped>

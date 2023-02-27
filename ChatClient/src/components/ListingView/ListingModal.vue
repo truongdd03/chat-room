@@ -1,5 +1,8 @@
 <template>
-  <div :class="`listing-wrapper ${selectedListing == chatName ? 'selected' : ''}`">
+  <div
+    :class="`listing-wrapper ${selectedListing == chatName ? 'selected' : ''}`"
+    @click="selectListing"
+  >
     <p class="has-text-primary">{{ chatName }}</p>
     <div v-if="lastMessage">
       <p>
@@ -14,7 +17,7 @@
       </p>
     </div>
     <div v-else>
-        <p class="is-italic">There is no message to show</p>
+      <p class="is-italic">There is no message to show</p>
     </div>
   </div>
 </template>
@@ -24,6 +27,8 @@ import type { Message } from "@/types/Message";
 import type { StoreData } from "@/types/StoreData";
 import { ref, watch, type Ref } from "vue";
 import { Store, useStore } from "vuex";
+
+const emit = defineEmits(["select-listing"]);
 
 const props = defineProps({
   chatName: String,
@@ -42,6 +47,10 @@ watch(
     }
   }
 );
+
+const selectListing = () => {
+  emit("select-listing", props.chatName);
+};
 </script>
 
 <style scoped>
@@ -54,9 +63,7 @@ watch(
   padding: 10px;
 }
 
-.selected,
-.listing-wrapper:hover {
+.selected {
   background-color: var(--vt-c-black-soft);
 }
-
 </style>
