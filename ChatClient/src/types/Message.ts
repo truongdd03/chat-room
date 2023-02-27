@@ -1,5 +1,7 @@
 export interface Message {
-  id: string;
+  senderName: string;
+  receiverName: string;
   message: string;
-  ownerId: string;
+  date: string;
+  status: string;
 }

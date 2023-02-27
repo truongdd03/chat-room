@@ -10,19 +10,43 @@
 import ChatHeader from "./ChatHeader.vue";
 import ChatFooter from "./ChatFooter.vue";
 import ChatContent from "./ChatContent/ChatContent.vue";
-import { ref, type Ref } from "vue";
+import { onMounted, ref, type Ref } from "vue";
 import type { Message } from "@/types/Message";
-import { useStore } from "vuex";
+import { Store, useStore } from "vuex";
+import type { Client } from "stompjs";
+import type { StoreData } from "@/types/StoreData";
 
-const store = useStore();
+const store: Store<StoreData> = useStore();
 
-const messages: Ref<Array<Message>> = ref([
-  { id: "0", message: "Hello how are you?", ownerId: "Pikachu" },
-]);
+const messages: Ref<Array<Message>> = ref([]);
+
+onMounted(() => {
+  messages.value = store.state.messages["public"];
+});
+
+const sendPublicMessage = (message: Message) => {
+  if (store.state.stompClient) {
+    (store.state.stompClient as Client).send(
+      "/app/message",
+      {},
+      JSON.stringify(message)
+    );
+  }
+};
 
 const onSendMessage = ($event: any) => {
-  const id = messages.value.length.toString();
-  messages.value.push({ id, message: $event, ownerId: store.state.username });
+  const senderName = store.state.username;
+  const receiverName = "Pickachu";
+  const status = "MESSAGE";
+  const date = "today";
+  const message: Message = {
+    senderName,
+    message: $event,
+    receiverName,
+    status,
+    date,
+  };
+  sendPublicMessage(message);
 };
 </script>
 

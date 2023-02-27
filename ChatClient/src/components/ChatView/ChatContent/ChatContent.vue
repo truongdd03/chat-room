@@ -1,8 +1,8 @@
 <template>
   <div class="content-wrapper">
-    <div v-for="message in messages" v-bind:key="message.id">
+    <div v-for="message in messages" v-bind:key="message.message">
       <MyMessage
-        v-if="message.ownerId == store.state.username"
+        v-if="message.senderName == store.state.username"
         :message="message"
       ></MyMessage>
       <OtherMessage v-else :message="message"></OtherMessage>
