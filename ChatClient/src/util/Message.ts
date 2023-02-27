@@ -17,11 +17,50 @@ export const onPublicMessageReceived = (
   }
 };
 
-export const sendPublicMessage = (
+export const onPrivateMessageReceived = (
   store: Store<StoreData>,
-  message: Message
+  payload: any
 ) => {
+  const payloadData = JSON.parse(payload.body);
+
+  if (payloadData.status == "MESSAGE") {
+    const { senderName } = payloadData;
+
+    if (!store.state.messages[senderName]) {
+      store.state.messages[senderName] = [];
+    }
+    if (senderName != store.state.username) {
+      store.state.messages[senderName].push(payloadData);
+    }
+  }
+};
+
+export const sendMessage = (store: Store<StoreData>, message: Message) => {
+  if (message.receiverName == "Public") {
+    sendPublicMessage(store, message);
+  } else {
+    sendPrivateMessage(store, message);
+  }
+};
+
+const sendPublicMessage = (store: Store<StoreData>, message: Message) => {
   if (store.state.stompClient) {
     store.state.stompClient.send("/app/message", {}, JSON.stringify(message));
+  }
+};
+
+const sendPrivateMessage = (store: Store<StoreData>, message: Message) => {
+  if (store.state.stompClient) {
+    store.state.stompClient.send(
+      "/app/private-message",
+      {},
+      JSON.stringify(message)
+    );
+
+    const { receiverName } = message;
+    if (!store.state.messages[receiverName]) {
+      store.state.messages[receiverName] = [];
+    }
+    store.state.messages[receiverName].push(message);
   }
 };

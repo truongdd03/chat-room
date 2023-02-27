@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import type { Message } from "@/types/Message";
 import type { StoreData } from "@/types/StoreData";
-import { ref, watch, type Ref } from "vue";
+import { ref, watch, type Ref, onMounted } from "vue";
 import { Store, useStore } from "vuex";
 
 const emit = defineEmits(["select-listing"]);
@@ -41,12 +41,23 @@ const lastMessage: Ref<Message | null> = ref(null);
 
 watch(
   () => store.state.messages[props.chatName!].length,
-  (count, prevCount) => {
-    if (prevCount < count) {
-      lastMessage.value = store.state.messages[props.chatName!][count - 1];
-    }
+  () => {
+    updateMessage();
   }
 );
+
+onMounted(() => {
+  updateMessage();
+});
+
+const updateMessage = () => {
+  const messages = store.state.messages[props.chatName!];
+  if (!messages) {
+    lastMessage.value = null;
+  } else {
+    lastMessage.value = messages[messages.length - 1];
+  }
+};
 
 const selectListing = () => {
   emit("select-listing", props.chatName);

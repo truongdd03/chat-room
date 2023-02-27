@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref } from "vue";
+import { ref, watch, type Ref } from "vue";
 import ListingModal from "./ListingModal.vue";
 import ListingHeader from "./ListingHeader.vue";
 import { useStore, type Store } from "vuex";
@@ -26,6 +26,26 @@ import type { StoreData } from "@/types/StoreData";
 const store: Store<StoreData> = useStore();
 
 const chatNames: Ref<Array<string>> = ref(["Public"]);
+
+watch(
+  () => Object.keys(store.state.messages).length,
+  (count, previousCount) => {
+    const keys = Object.keys(store.state.messages);
+    if (count > previousCount) {
+      for (const chatName of keys) {
+        if (!chatNames.value.includes(chatName)) {
+          chatNames.value.unshift(chatName);
+        }
+      }
+    } else {
+      for (const chatName of chatNames.value) {
+        if (!keys.includes(chatName)) {
+          chatNames.value.filter((name: string) => name == chatName);
+        }
+      }
+    }
+  }
+);
 
 defineProps({
   selectedListing: String,
@@ -39,7 +59,6 @@ const selectListing = (username: string) => {
 
 const onAddUser = (username: string) => {
   store.state.messages[username] = [];
-  chatNames.value.unshift(username);
   selectListing(username);
 };
 </script>

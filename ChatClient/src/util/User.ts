@@ -2,7 +2,7 @@ import type { StoreData } from "@/types/StoreData";
 import type { Store } from "vuex";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
-import { onPublicMessageReceived } from "./Message";
+import { onPrivateMessageReceived, onPublicMessageReceived } from "./Message";
 
 export const registerUser = (store: Store<StoreData>, username: string) => {
   store.state.username = username;
@@ -17,10 +17,10 @@ const onConnected = (store: Store<StoreData>) => {
   store.state.stompClient?.subscribe("/chatroom/public", (payload) =>
     onPublicMessageReceived(store, payload)
   );
-  // stompClient.subscribe(
-  //   `/user/${username.value}/private`,
-  //   onPrivateMessageReceived
-  // );
+  store.state.stompClient?.subscribe(
+    `/user/${store.state.username}/private`,
+    (payload) => onPrivateMessageReceived(store, payload)
+  );
 };
 
 const onError = (err: any) => {

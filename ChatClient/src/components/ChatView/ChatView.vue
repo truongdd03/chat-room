@@ -10,27 +10,34 @@
 import ChatHeader from "./ChatHeader.vue";
 import ChatFooter from "./ChatFooter.vue";
 import ChatContent from "./ChatContent/ChatContent.vue";
-import { onMounted, ref, type Ref } from "vue";
+import { onMounted, ref, watch, type Ref } from "vue";
 import type { Message } from "@/types/Message";
 import { Store, useStore } from "vuex";
 import type { StoreData } from "@/types/StoreData";
-import { sendPublicMessage } from "@/util/Message";
+import { sendMessage } from "@/util/Message";
 
 const store: Store<StoreData> = useStore();
 
 const messages: Ref<Array<Message>> = ref([]);
 
-defineProps({
+const props = defineProps({
   selectedListing: String,
 });
 
+watch(
+  () => store.state.messages[props.selectedListing!].length,
+  () => {
+    messages.value = store.state.messages[props.selectedListing!];
+  }
+);
+
 onMounted(() => {
-  messages.value = store.state.messages["Public"];
+  messages.value = store.state.messages[props.selectedListing!];
 });
 
 const onSendMessage = ($event: any) => {
   const senderName = store.state.username;
-  const receiverName = "Pickachu";
+  const receiverName = props.selectedListing!;
   const status = "MESSAGE";
   const date = "today";
   const message: Message = {
@@ -40,7 +47,8 @@ const onSendMessage = ($event: any) => {
     status,
     date,
   };
-  sendPublicMessage(store, message);
+
+  sendMessage(store, message);
 };
 </script>
 
