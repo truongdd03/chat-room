@@ -11,13 +11,29 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useStore } from "vuex";
-import { notify } from "@kyvg/vue3-notification";
 import router from "@/router";
+import { notify } from "@kyvg/vue3-notification";
+import { useStore } from "vuex";
+import { over } from "stompjs";
+import SockJS from "sockjs-client";
 
 const username = ref("");
 
 const store = useStore();
+
+const registerUser = (username: string) => {
+  store.state.username = username;
+
+  const sock = new SockJS("http://localhost:8080/ws");
+  const stompClient = over(sock);
+  stompClient.connect({}, onConnected, onError);
+};
+
+const onConnected = () => {
+  store.state.isConnected = true;
+};
+
+const onError = () => {};
 
 const onJoinClicked = () => {
   if (username.value.replace(" ", "").length == 0) {
@@ -26,7 +42,8 @@ const onJoinClicked = () => {
       type: "error",
     });
   } else {
-    store.state.username = username.value;
+    console.log(store);
+    registerUser(username.value);
     router.push("/home");
   }
 };

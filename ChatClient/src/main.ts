@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import { createStore } from "vuex";
+import { Store, createStore } from "vuex";
 import App from "./App.vue";
 import router from "./router";
 
@@ -14,16 +14,18 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import type { StoreData } from "./types/StoreData";
 
 const icons = [faSearch, faEllipsis, faPaperPlane];
 
 icons.forEach((icon) => library.add(icon));
 
 // Create a new store instance.
-const store = createStore({
+const store: Store<StoreData> = createStore({
   state() {
     return {
       username: "",
+      isConnected: false,
     };
   },
 });
