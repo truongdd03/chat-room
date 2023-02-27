@@ -1,6 +1,6 @@
 <template>
   <div class="chat-header">
-    <p class="has-text-primary">User 1</p>
+    <p class="has-text-primary">{{ chatName }}</p>
     <font-awesome-icon
       class="icon has-text-primary"
       icon="fa-solid fa-ellipsis"
@@ -8,6 +8,12 @@
     />
   </div>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  chatName: String,
+});
+</script>
 
 <style scoped>
 .chat-header {

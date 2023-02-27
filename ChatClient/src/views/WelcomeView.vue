@@ -50,7 +50,7 @@ const onPublicMessageReceived = (payload: any) => {
       break;
 
     case "MESSAGE":
-      store.state.messages["public"].push(payloadData);
+      store.state.messages["Public"].push(payloadData);
       break;
   }
 };

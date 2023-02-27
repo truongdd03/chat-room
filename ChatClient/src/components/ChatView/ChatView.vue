@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <ChatHeader style="height: 50px"></ChatHeader>
+    <ChatHeader style="height: 50px" :chat-name="chatName"></ChatHeader>
     <ChatContent class="chat-content" :messages="messages"></ChatContent>
     <ChatFooter style="height: 70px" @new-message="onSendMessage"></ChatFooter>
   </div>
@@ -20,8 +20,11 @@ const store: Store<StoreData> = useStore();
 
 const messages: Ref<Array<Message>> = ref([]);
 
+const chatName: Ref<string> = ref("Public")
+
 onMounted(() => {
-  messages.value = store.state.messages["public"];
+  messages.value = store.state.messages["Public"];
+  chatName.value = "Public";
 });
 
 const sendPublicMessage = (message: Message) => {
