@@ -20,7 +20,7 @@ const store: Store<StoreData> = useStore();
 
 const messages: Ref<Array<Message>> = ref([]);
 
-const chatName: Ref<string> = ref("Public")
+const chatName: Ref<string> = ref("Public");
 
 onMounted(() => {
   messages.value = store.state.messages["Public"];

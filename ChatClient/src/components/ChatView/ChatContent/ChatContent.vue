@@ -1,5 +1,6 @@
 <template>
   <div class="content-wrapper">
+    <p class="is-italic has-text-centered">Conversation's beginning</p>
     <div v-for="message in messages" v-bind:key="message.message">
       <MyMessage
         v-if="message.senderName == store.state.username"

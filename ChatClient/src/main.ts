@@ -26,7 +26,7 @@ const store: Store<StoreData> = createStore({
     return {
       username: "",
       isConnected: false,
-      messages: { "Public": [] },
+      messages: { Public: [] },
     };
   },
 });

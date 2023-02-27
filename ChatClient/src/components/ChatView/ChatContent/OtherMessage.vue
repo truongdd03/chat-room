@@ -3,7 +3,7 @@
     <div class="message has-text-primary">
       <p>{{ message?.message }}</p>
       <p class="is-size-7 author">
-        sent by <span class="has-text-primary">{{ message?.senderName }}</span>
+        sent by <span class="has-text-info">{{ message?.senderName }}</span>
       </p>
     </div>
   </div>
