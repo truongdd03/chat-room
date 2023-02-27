@@ -4,13 +4,15 @@
       style="height: 50px; width: 100%"
       @add-user="onAddUser"
     ></ListingHeader>
-    <ListingModal
-      v-for="chatName in chatNames"
-      v-bind:key="chatName"
-      :chat-name="chatName"
-      :selected-listing="selectedListing"
-      @select-listing="selectListing($event)"
-    ></ListingModal>
+    <div class="modals-wrapper">
+      <ListingModal
+        v-for="chatName in chatNames"
+        v-bind:key="chatName"
+        :chat-name="chatName"
+        :selected-listing="selectedListing"
+        @select-listing="selectListing($event)"
+      ></ListingModal>
+    </div>
   </div>
 </template>
 
@@ -45,5 +47,10 @@ const onAddUser = (username: string) => {
 <style scoped>
 .wrapper {
   background-color: var(--vt-c-black);
+}
+
+.modals-wrapper {
+  overflow-y: scroll;
+  height: calc(100% - 50px);
 }
 </style>

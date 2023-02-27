@@ -13,8 +13,8 @@ import ChatContent from "./ChatContent/ChatContent.vue";
 import { onMounted, ref, type Ref } from "vue";
 import type { Message } from "@/types/Message";
 import { Store, useStore } from "vuex";
-import type { Client } from "stompjs";
 import type { StoreData } from "@/types/StoreData";
+import { sendPublicMessage } from "@/util/Message";
 
 const store: Store<StoreData> = useStore();
 
@@ -28,16 +28,6 @@ onMounted(() => {
   messages.value = store.state.messages["Public"];
 });
 
-const sendPublicMessage = (message: Message) => {
-  if (store.state.stompClient) {
-    (store.state.stompClient as Client).send(
-      "/app/message",
-      {},
-      JSON.stringify(message)
-    );
-  }
-};
-
 const onSendMessage = ($event: any) => {
   const senderName = store.state.username;
   const receiverName = "Pickachu";
@@ -50,7 +40,7 @@ const onSendMessage = ($event: any) => {
     status,
     date,
   };
-  sendPublicMessage(message);
+  sendPublicMessage(store, message);
 };
 </script>
 
