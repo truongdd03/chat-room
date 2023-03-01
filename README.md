@@ -1,5 +1,5 @@
 # chat-room
-A realtime chat web-application created with Java and Vue.
+A real-time chat web application created with Java and Vue.
 
 * Backend (Spring Boot + Java) is inside the ChatRoom folder.
 * Frontend (Vue3 + TypeScript) is inside the ChatClient folder.
