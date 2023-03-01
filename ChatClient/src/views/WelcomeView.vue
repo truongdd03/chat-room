@@ -22,15 +22,22 @@ const username = ref("");
 
 const store: Store<StoreData> = useStore();
 
-const onJoinClicked = () => {
+const onJoinClicked = async () => {
   if (username.value.replace(" ", "").length == 0) {
     notify({
       title: "Please enter your username",
       type: "error",
     });
   } else {
-    registerUser(store, username.value);
-    router.push("/home");
+    try {
+      await registerUser(store, username.value);
+      router.push("/home");
+    } catch (e: any) {
+      notify({
+        title: "A user with the same username is already in the chat :(",
+        type: "error",
+      })
+    }
   }
 };
 

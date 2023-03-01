@@ -11,7 +11,6 @@ import com.truongdd03.ChatRoom.model.Message;
 
 @Controller
 public class ChatController {
-
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
@@ -22,9 +21,9 @@ public class ChatController {
     }
 
     @MessageMapping("/private-message")
-
     private Message receivePrivatMessage(@Payload Message message) {
         simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(), "/private", message);
         return message;
     }
+
 }
