@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <p class="is-size-4 has-text-primary">Chat Room</p>
+        <a href="/" class="is-size-4 has-text-primary brand">Chat Room</a>
       </div>
 
       <div
@@ -19,6 +19,12 @@
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-end">
         <div class="navbar-item">
+          <p class="is-size-6">
+            Hi <span class="has-text-primary">{{ store.state.username }}</span
+            >!
+          </p>
+        </div>
+        <div class="navbar-item">
           <a href="/" class="button is-dark">Log out</a>
         </div>
       </div>
@@ -28,6 +34,9 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
 
 const showNav = ref(false);
 </script>
@@ -38,6 +47,10 @@ const showNav = ref(false);
   height: 100%;
   background-color: var(--vt-c-black);
   border-bottom: solid 2px grey;
+}
+
+.brand:hover {
+  background-color: var(--vt-c-black);
 }
 
 .navbar-menu {

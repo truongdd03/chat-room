@@ -39,7 +39,7 @@ const onSendMessage = ($event: any) => {
   const senderName = store.state.username;
   const receiverName = props.selectedListing!;
   const status = "MESSAGE";
-  const date = "today";
+  const date = new Date().toString();
   const message: Message = {
     senderName,
     message: $event,

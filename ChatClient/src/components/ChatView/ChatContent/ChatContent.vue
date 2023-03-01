@@ -2,6 +2,12 @@
   <div class="content-wrapper">
     <p class="is-italic has-text-centered">Conversation's beginning</p>
     <div v-for="message in messages" v-bind:key="message.message">
+      <p
+        v-if="shouldDisplayDate(message, messages!)"
+        class="has-text-centered has-text-grey"
+      >
+        {{ getLocalTime(message.date) }}
+      </p>
       <MyMessage
         v-if="message.senderName == store.state.username"
         :message="message"
@@ -16,6 +22,7 @@ import { useStore } from "vuex";
 import type { Message } from "@/types/Message";
 import MyMessage from "./MyMessage.vue";
 import OtherMessage from "./OtherMessage.vue";
+import { getLocalTime, shouldDisplayDate } from "@/util/Date";
 
 const store = useStore();
 
