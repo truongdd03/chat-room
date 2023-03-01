@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import Multiselect from '@vueform/multiselect'
+import Multiselect from "@vueform/multiselect";
 import { getUsers } from "@/util/User";
 import { ref, type Ref } from "vue";
 
@@ -42,7 +42,7 @@ const addUser = () => {
 
 const loadUsers = async () => {
   users.value = await getUsers();
-}
+};
 </script>
 
 <style scoped>
@@ -51,6 +51,7 @@ const loadUsers = async () => {
   padding: 10px;
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 .icon-text {
   height: 100%;

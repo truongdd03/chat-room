@@ -25,9 +25,9 @@ defineProps({
 .message {
   max-width: 60%;
   background-color: var(--vt-c-black-soft);
-  border-radius: 5px;
+  border-radius: 20px;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 5px 15px 5px 15px;
 }
 
 .author {

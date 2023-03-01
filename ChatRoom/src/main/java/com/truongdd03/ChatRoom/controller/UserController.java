@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class UserController {
     private ArrayList<String> users = new ArrayList<>();
 
-    @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity RegisterUser(@RequestParam("username") String username) {
         if (users.contains(username)) {
@@ -22,7 +21,12 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @CrossOrigin
+    @PostMapping("/unregister")
+    public ResponseEntity UnregisterUser(@RequestParam("username") String username) {
+        users.remove(username);
+        return ResponseEntity.ok().build();
+    }
+
     @RequestMapping("/users")
     @ResponseBody
     public ArrayList<String> GetUsers() {

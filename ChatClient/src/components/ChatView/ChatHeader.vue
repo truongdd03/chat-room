@@ -1,6 +1,8 @@
 <template>
   <div class="chat-header">
-    <p class="has-text-primary">{{ chatName }}</p>
+    <p class="has-text-primary has-text-weight-bold is-size-6">
+      {{ chatName }}
+    </p>
     <font-awesome-icon
       class="icon has-text-primary"
       icon="fa-solid fa-ellipsis"

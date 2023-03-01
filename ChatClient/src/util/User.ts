@@ -12,7 +12,7 @@ export const getUsers = async () => {
   } catch {
     return [];
   }
-}
+};
 
 export const registerUser = async (
   store: Store<StoreData>,
@@ -25,12 +25,20 @@ export const registerUser = async (
   const sock = new SockJS("http://localhost:8080/ws");
   store.state.stompClient = over(sock);
   store.state.stompClient.connect({}, () => onConnected(store), onError);
+
+  listenUserOnExit(store);
+};
+
+const listenUserOnExit = async (store: Store<StoreData>) => {
+  window.addEventListener("beforeunload", async () => {
+    await axios.post(
+      "http://localhost:8080/unregister?username=" + store.state.username
+    );
+  });
 };
 
 const validateUsername = async (username: string) => {
-  await axios.post(
-    "http://localhost:8080/register?username=" + username
-  );
+  await axios.post("http://localhost:8080/register?username=" + username);
 };
 
 const onConnected = (store: Store<StoreData>) => {

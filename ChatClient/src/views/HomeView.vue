@@ -40,7 +40,7 @@ const selectedListing: Ref<string> = ref("Public");
 
 onMounted(() => {
   if (!store || store.state.username == "") {
-    // router.push("/");
+    router.push("/");
   } else {
     notify({
       title: `Welcome ${store.state.username}`,

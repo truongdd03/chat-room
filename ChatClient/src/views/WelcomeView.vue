@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import router from "@/router";
 import { notify } from "@kyvg/vue3-notification";
 import { Store, useStore } from "vuex";
@@ -46,6 +46,10 @@ const handleKeyDown = ($event: any) => {
     onJoinClicked();
   }
 };
+
+onMounted(() => {
+  console.log(store.state);
+});
 </script>
 
 <style scoped>

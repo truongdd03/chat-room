@@ -21,10 +21,9 @@ defineProps({
 }
 .message {
   max-width: 60%;
-  /* background-color: var(--vt-c-black-soft); */
   background-color: rgba(92, 198, 173, 0.589);
-  border-radius: 5px;
+  border-radius: 20px;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 5px 15px 5px 15px;
 }
 </style>

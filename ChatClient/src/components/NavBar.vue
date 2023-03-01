@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <RouterLink to="/" class="navbar-item">
+      <div class="navbar-item">
         <p class="is-size-4 has-text-primary">Chat Room</p>
-      </RouterLink>
+      </div>
 
       <div
         class="navbar-burger"
@@ -18,20 +18,8 @@
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-end">
-        <div class="navbar-item field">
-          <p class="control has-icons-right">
-            <input
-              class="input has-background-dark is-primary"
-              type="search"
-              placeholder="Search..."
-            />
-            <span class="icon is-small is-right">
-              <font-awesome-icon icon="fa-solid fa-search" inverse />
-            </span>
-          </p>
-        </div>
         <div class="navbar-item">
-          <RouterLink to="/" class="button is-dark"> Log out </RouterLink>
+          <a href="/" class="button is-dark">Log out</a>
         </div>
       </div>
     </div>

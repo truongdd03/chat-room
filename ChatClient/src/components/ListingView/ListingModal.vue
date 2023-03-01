@@ -68,7 +68,6 @@ const selectListing = () => {
 .listing-wrapper {
   width: 100%;
   height: 70px;
-  border-bottom: solid 2px black;
   cursor: pointer;
   border-radius: 5px;
   padding: 10px;
