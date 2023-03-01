@@ -5,10 +5,12 @@ export const getLocalTime = (timestamp: string): string => {
   const today = new Date();
   const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  const hours = formatNumber(date.getHours());
+  const minutes = formatNumber(date.getMinutes());
   if (compareDate(today, date)) {
-    return `Today, ${date.getHours()}:${date.getMinutes()}`;
+    return `Today, ${hours}:${minutes}`;
   } else {
-    return `${weekday[date.getDay()]}, ${date.getHours()}:${date.getMinutes()}`;
+    return `${weekday[date.getDay()]}, ${hours}:${minutes}`;
   }
 };
 
@@ -28,4 +30,12 @@ export const shouldDisplayDate = (
 
 const compareDate = (date1: Date, date2: Date): boolean => {
   return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
+}
+
+const formatNumber = (num: number): string => {
+  let str = num.toString();
+  if (str.length < 2) {
+    str = "0" + str;
+  }
+  return str;
 }
