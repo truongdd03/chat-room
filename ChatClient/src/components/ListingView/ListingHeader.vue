@@ -2,11 +2,12 @@
   <div class="listing-header">
     <div class="icon-text">
       <span class="input-wrapper">
-        <input
+        <Multiselect
           v-model="username"
-          v-on:keydown="handleKeyDown"
-          class="input has-background-dark is-primary"
+          :options="users"
+          :searchable="true"
           placeholder="Enter username..."
+          @click="loadUsers"
         />
       </span>
       <span class="icon-wrapper">
@@ -22,11 +23,15 @@
 </template>
 
 <script lang="ts" setup>
+import Multiselect from '@vueform/multiselect'
+import { getUsers } from "@/util/User";
 import { ref, type Ref } from "vue";
 
 const emit = defineEmits(["add-user"]);
 
 const username: Ref<string> = ref("");
+
+const users: Ref<Array<string>> = ref([]);
 
 const addUser = () => {
   if (username.value != "") {
@@ -35,11 +40,9 @@ const addUser = () => {
   }
 };
 
-const handleKeyDown = ($event: any) => {
-  if ($event.key == "Enter") {
-    addUser();
-  }
-};
+const loadUsers = async () => {
+  users.value = await getUsers();
+}
 </script>
 
 <style scoped>
@@ -68,3 +71,5 @@ const handleKeyDown = ($event: any) => {
   margin-left: 10px;
 }
 </style>
+
+<style src="@vueform/multiselect/themes/default.css"></style>

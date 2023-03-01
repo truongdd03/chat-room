@@ -36,7 +36,7 @@ const onJoinClicked = async () => {
       notify({
         title: "A user with the same username is already in the chat :(",
         type: "error",
-      })
+      });
     }
   }
 };

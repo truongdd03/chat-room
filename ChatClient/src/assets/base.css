@@ -19,6 +19,18 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --ms-border-color: rgb(94, 205, 179);
+  --ms-placeholder-color: #999999;
+  --ms-dropdown-bg: rgb(54, 54, 54);
+  --ms-dropdown-border-color: rgb(94, 205, 179);
+  --ms-bg: rgb(54, 54, 54);
+  --ms-option-color-pointed: rgb(104, 166, 248);
+  --ms-option-bg-pointed: rgb(42, 41, 41);
+  --ms-option-bg-selected: rgb(33, 33, 33);
+  --ms-option-bg-selected-pointed: rgb(238, 117, 108);
+  --ms-caret-color: #999999;
+  --ms-clear-color-hover: rgb(238, 117, 108);
 }
 
 /* semantic color variables for this project */

@@ -5,7 +5,19 @@ import SockJS from "sockjs-client";
 import { onPrivateMessageReceived, onPublicMessageReceived } from "./Message";
 import axios from "axios";
 
-export const registerUser = async (store: Store<StoreData>, username: string) => {
+export const getUsers = async () => {
+  try {
+    const rawResult = await axios.get("http://localhost:8080/users");
+    return rawResult.data;
+  } catch {
+    return [];
+  }
+}
+
+export const registerUser = async (
+  store: Store<StoreData>,
+  username: string
+) => {
   await validateUsername(username);
 
   store.state.username = username;
@@ -16,9 +28,10 @@ export const registerUser = async (store: Store<StoreData>, username: string) =>
 };
 
 const validateUsername = async (username: string) => {
-  const rawResult = await axios.post("http://localhost:8080/register?username=" + username);
-  console.log(rawResult);
-}
+  await axios.post(
+    "http://localhost:8080/register?username=" + username
+  );
+};
 
 const onConnected = (store: Store<StoreData>) => {
   store.state.isConnected = true;
