@@ -25,7 +25,7 @@
 import router from "@/router";
 import { notify } from "@kyvg/vue3-notification";
 import { onMounted, ref, type Ref } from "vue";
-import { useStore } from "vuex";
+import { Store, useStore } from "vuex";
 
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
@@ -33,17 +33,18 @@ import "splitpanes/dist/splitpanes.css";
 import NavBar from "@/components/NavBar.vue";
 import ListingView from "@/components/ListingView/ListingView.vue";
 import ChatView from "@/components/ChatView/ChatView.vue";
+import type { StoreData } from "@/types/StoreData";
 
-const store = useStore();
+const store: Store<StoreData> = useStore();
 
 const selectedListing: Ref<string> = ref("Public");
 
 onMounted(() => {
-  if (!store || store.state.username == "") {
+  if (!store || !store.state.user) {
     router.push("/");
   } else {
     notify({
-      title: `Welcome ${store.state.username}`,
+      title: `Welcome ${store.state.user.username}`,
       type: "success",
     });
   }

@@ -25,7 +25,6 @@ icons.forEach((icon) => library.add(icon));
 const store: Store<StoreData> = createStore({
   state() {
     return {
-      username: "",
       isConnected: false,
       messages: { Public: [] },
     };

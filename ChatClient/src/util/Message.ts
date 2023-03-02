@@ -29,14 +29,14 @@ export const onPrivateMessageReceived = (
     if (!store.state.messages[senderName]) {
       store.state.messages[senderName] = [];
     }
-    if (senderName != store.state.username) {
+    if (senderName != store.state.user?.username) {
       store.state.messages[senderName].push(payloadData);
     }
   }
 };
 
 export const sendMessage = (store: Store<StoreData>, message: Message) => {
-  if (message.receiverName == "Public") {
+  if (message.receiverId == "Public") {
     sendPublicMessage(store, message);
   } else {
     sendPrivateMessage(store, message);
@@ -57,10 +57,10 @@ const sendPrivateMessage = (store: Store<StoreData>, message: Message) => {
       JSON.stringify(message)
     );
 
-    const { receiverName } = message;
-    if (!store.state.messages[receiverName]) {
-      store.state.messages[receiverName] = [];
+    const { receiverId } = message;
+    if (!store.state.messages[receiverId]) {
+      store.state.messages[receiverId] = [];
     }
-    store.state.messages[receiverName].push(message);
+    store.state.messages[receiverId].push(message);
   }
 };

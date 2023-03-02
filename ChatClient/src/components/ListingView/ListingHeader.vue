@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import Multiselect from "@vueform/multiselect";
-import { getUsers } from "@/util/User";
+import { getUsernames } from "@/util/User";
 import { ref, type Ref } from "vue";
 
 const emit = defineEmits(["add-user"]);
@@ -41,7 +41,8 @@ const addUser = () => {
 };
 
 const loadUsers = async () => {
-  users.value = await getUsers();
+  users.value = await getUsernames();
+  console.log(users.value);
 };
 </script>
 

@@ -1,6 +1,6 @@
 export interface Message {
   senderName: string;
-  receiverName: string;
+  receiverId: string;
   message: string;
   date: string;
   status: string;

@@ -4,11 +4,13 @@ import { over } from "stompjs";
 import SockJS from "sockjs-client";
 import { onPrivateMessageReceived, onPublicMessageReceived } from "./Message";
 import axios from "axios";
+import type { User } from "@/types/User";
 
-export const getUsers = async () => {
+export const getUsernames = async () => {
   try {
     const rawResult = await axios.get("http://localhost:8080/users");
-    return rawResult.data;
+    const users: Array<User> = rawResult.data;
+    return users.map((user: User) => user.username);
   } catch {
     return [];
   }
@@ -18,9 +20,10 @@ export const registerUser = async (
   store: Store<StoreData>,
   username: string
 ) => {
-  await validateUsername(username);
+  const user: User = { username };
+  await validateUsername(user);
 
-  store.state.username = username;
+  store.state.user = user;
 
   const sock = new SockJS("http://localhost:8080/ws");
   store.state.stompClient = over(sock);
@@ -31,14 +34,13 @@ export const registerUser = async (
 
 const listenUserOnExit = async (store: Store<StoreData>) => {
   window.addEventListener("beforeunload", async () => {
-    await axios.post(
-      "http://localhost:8080/unregister?username=" + store.state.username
-    );
+    await axios.post("http://localhost:8080/unregister", store.state.user);
   });
 };
 
-const validateUsername = async (username: string) => {
-  await axios.post("http://localhost:8080/register?username=" + username);
+const validateUsername = async (user: User) => {
+  console.log(user);
+  await axios.post("http://localhost:8080/register", user);
 };
 
 const onConnected = (store: Store<StoreData>) => {
@@ -47,7 +49,7 @@ const onConnected = (store: Store<StoreData>) => {
     onPublicMessageReceived(store, payload)
   );
   store.state.stompClient?.subscribe(
-    `/user/${store.state.username}/private`,
+    `/user/${store.state.user?.username}/private`,
     (payload) => onPrivateMessageReceived(store, payload)
   );
 };
