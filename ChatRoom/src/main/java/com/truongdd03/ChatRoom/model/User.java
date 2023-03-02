@@ -1,14 +1,12 @@
 package com.truongdd03.ChatRoom.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Objects;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -20,5 +18,10 @@ public class User {
         if (obj == null || getClass() != obj.getClass()) return false;
         User user = (User) obj;
         return Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
     }
 }
