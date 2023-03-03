@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper">
-    <ChatHeader style="height: 50px" :chat-name="selectedListing"></ChatHeader>
+    <ChatHeader
+      style="height: 50px"
+      :chat-name="selectedChat?.name"
+    ></ChatHeader>
     <ChatContent class="chat-content" :messages="messages"></ChatContent>
     <ChatFooter style="height: 70px" @new-message="onSendMessage"></ChatFooter>
   </div>
@@ -15,35 +18,36 @@ import type { Message } from "@/types/Message";
 import { Store, useStore } from "vuex";
 import type { StoreData } from "@/types/StoreData";
 import { sendMessage } from "@/util/Message";
+import type { Group } from "@/types/Group";
 
 const store: Store<StoreData> = useStore();
 
 const messages: Ref<Array<Message>> = ref([]);
 
 const props = defineProps({
-  selectedListing: String,
+  selectedChat: Object as () => Group,
 });
 
 watch(
-  () => store.state.messages[props.selectedListing!].length,
+  () => store.state.messages[props.selectedChat!.id].length,
   () => {
-    messages.value = store.state.messages[props.selectedListing!];
+    messages.value = store.state.messages[props.selectedChat!.id];
   }
 );
 
 onMounted(() => {
-  messages.value = store.state.messages[props.selectedListing!];
+  messages.value = store.state.messages[props.selectedChat!.id];
 });
 
 const onSendMessage = ($event: any) => {
-  const senderName = store.state.username;
-  const receiverName = props.selectedListing!;
+  const senderName = store.state.user!.username;
+  const receiverId = props.selectedChat!.id;
   const status = "MESSAGE";
   const date = new Date().toString();
   const message: Message = {
     senderName,
     message: $event,
-    receiverName,
+    receiverId,
     status,
     date,
   };

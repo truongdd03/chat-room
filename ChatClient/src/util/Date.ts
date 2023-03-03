@@ -18,7 +18,8 @@ export const shouldDisplayDate = (
   message: Message,
   messages: Array<Message>
 ): boolean => {
-  const previousMessageIndex = messages.findIndex((m: Message) => m.date == message.date) - 1;
+  const previousMessageIndex =
+    messages.findIndex((m: Message) => m.date == message.date) - 1;
   if (previousMessageIndex < 0) {
     return true;
   }
@@ -29,8 +30,12 @@ export const shouldDisplayDate = (
 };
 
 const compareDate = (date1: Date, date2: Date): boolean => {
-  return date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear();
-}
+  return (
+    date1.getDate() == date2.getDate() &&
+    date1.getMonth() == date2.getMonth() &&
+    date1.getFullYear() == date2.getFullYear()
+  );
+};
 
 const formatNumber = (num: number): string => {
   let str = num.toString();
@@ -38,4 +43,4 @@ const formatNumber = (num: number): string => {
     str = "0" + str;
   }
   return str;
-}
+};

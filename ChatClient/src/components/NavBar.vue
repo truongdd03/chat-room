@@ -20,7 +20,10 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <p class="is-size-6">
-            Hi <span class="has-text-primary">{{ store.state.username }}</span
+            Hi
+            <span class="has-text-primary">{{
+              store.state.user!.username
+            }}</span
             >!
           </p>
         </div>
@@ -33,10 +36,11 @@
 </template>
 
 <script lang="ts" setup>
+import type { StoreData } from "@/types/StoreData";
 import { ref } from "vue";
-import { useStore } from "vuex";
+import { Store, useStore } from "vuex";
 
-const store = useStore();
+const store: Store<StoreData> = useStore();
 
 const showNav = ref(false);
 </script>

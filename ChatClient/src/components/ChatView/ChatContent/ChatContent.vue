@@ -9,7 +9,7 @@
         {{ getLocalTime(message.date) }}
       </p>
       <MyMessage
-        v-if="message.senderName == store.state.username"
+        v-if="message.senderName == store.state.user!.username"
         :message="message"
       ></MyMessage>
       <OtherMessage v-else :message="message"></OtherMessage>
@@ -18,13 +18,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from "vuex";
+import { Store, useStore } from "vuex";
 import type { Message } from "@/types/Message";
 import MyMessage from "./MyMessage.vue";
 import OtherMessage from "./OtherMessage.vue";
 import { getLocalTime, shouldDisplayDate } from "@/util/Date";
+import type { StoreData } from "@/types/StoreData";
 
-const store = useStore();
+const store: Store<StoreData> = useStore();
 
 defineProps({
   messages: Array<Message>,

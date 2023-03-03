@@ -6,55 +6,35 @@
     ></ListingHeader>
     <div class="modals-wrapper">
       <ListingModal
-        v-for="chatName in chatNames"
-        v-bind:key="chatName"
-        :chat-name="chatName"
-        :selected-listing="selectedListing"
-        @select-listing="selectListing($event)"
+        v-for="group in Object.values(store.state.groupById)"
+        v-bind:key="group.id"
+        :chat-info="group"
+        :selected-chat="selectedChat"
+        @select-chat="selectListing($event)"
       ></ListingModal>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, type Ref } from "vue";
 import ListingModal from "./ListingModal.vue";
 import ListingHeader from "./ListingHeader.vue";
 import { useStore, type Store } from "vuex";
 import type { StoreData } from "@/types/StoreData";
+import type { Group } from "@/types/Group";
 
 const store: Store<StoreData> = useStore();
 
-const chatNames: Ref<Array<string>> = ref(["Public"]);
-
-watch(
-  () => Object.keys(store.state.messages).length,
-  (count, previousCount) => {
-    const keys = Object.keys(store.state.messages);
-    if (count > previousCount) {
-      for (const chatName of keys) {
-        if (!chatNames.value.includes(chatName)) {
-          chatNames.value.unshift(chatName);
-        }
-      }
-    } else {
-      for (const chatName of chatNames.value) {
-        if (!keys.includes(chatName)) {
-          chatNames.value.filter((name: string) => name == chatName);
-        }
-      }
-    }
-  }
-);
+console.log(store.state.groupById);
 
 defineProps({
-  selectedListing: String,
+  selectedChat: Object as () => Group,
 });
 
-const emit = defineEmits(["select-listing"]);
+const emit = defineEmits(["select-chat"]);
 
 const selectListing = (username: string) => {
-  emit("select-listing", username);
+  emit("select-chat", username);
 };
 
 const onAddUser = (username: string) => {

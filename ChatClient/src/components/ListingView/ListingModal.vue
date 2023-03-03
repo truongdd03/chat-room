@@ -1,14 +1,16 @@
 <template>
   <div
-    :class="`listing-wrapper ${selectedListing == chatName ? 'selected' : ''}`"
+    :class="`listing-wrapper ${
+      selectedChat?.id == chatInfo?.id ? 'selected' : ''
+    }`"
     @click="selectListing"
   >
-    <p class="has-text-primary">{{ chatName }}</p>
+    <p class="has-text-primary">{{ chatInfo?.name }}</p>
     <div v-if="lastMessage">
       <p>
         <span class="has-text-info"
           >{{
-            lastMessage?.senderName == store.state.username
+            lastMessage?.senderName == store.state.user?.username
               ? "You"
               : lastMessage.senderName
           }}:</span
@@ -23,16 +25,17 @@
 </template>
 
 <script lang="ts" setup>
+import type { Group } from "@/types/Group";
 import type { Message } from "@/types/Message";
 import type { StoreData } from "@/types/StoreData";
 import { ref, watch, type Ref, onMounted } from "vue";
 import { Store, useStore } from "vuex";
 
-const emit = defineEmits(["select-listing"]);
+const emit = defineEmits(["select-chat"]);
 
 const props = defineProps({
-  chatName: String,
-  selectedListing: String,
+  chatInfo: Object as () => Group,
+  selectedChat: Object as () => Group,
 });
 
 const store: Store<StoreData> = useStore();
@@ -40,7 +43,7 @@ const store: Store<StoreData> = useStore();
 const lastMessage: Ref<Message | null> = ref(null);
 
 watch(
-  () => store.state.messages[props.chatName!].length,
+  () => store.state.messages[props.chatInfo!.id].length,
   () => {
     updateMessage();
   }
@@ -51,7 +54,7 @@ onMounted(() => {
 });
 
 const updateMessage = () => {
-  const messages = store.state.messages[props.chatName!];
+  const messages = store.state.messages[props.chatInfo!.id];
   if (!messages) {
     lastMessage.value = null;
   } else {
@@ -60,7 +63,7 @@ const updateMessage = () => {
 };
 
 const selectListing = () => {
-  emit("select-listing", props.chatName);
+  emit("select-chat", props.chatInfo?.id);
 };
 </script>
 

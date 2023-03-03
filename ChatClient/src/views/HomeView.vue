@@ -7,14 +7,14 @@
       <Pane style="min-width: 300px" size="20">
         <ListingView
           style="width: 100%; height: 100%"
-          :selected-listing="selectedListing"
-          @select-listing="onListingSelected"
+          :selected-chat="selectedChat"
+          @select-chat="onChatSelected"
         ></ListingView>
       </Pane>
       <Pane min-size="40">
         <ChatView
           style="width: 100%; height: 100%"
-          :selected-listing="selectedListing"
+          :selected-chat="selectedChat"
         ></ChatView>
       </Pane>
     </Splitpanes>
@@ -34,10 +34,16 @@ import NavBar from "@/components/NavBar.vue";
 import ListingView from "@/components/ListingView/ListingView.vue";
 import ChatView from "@/components/ChatView/ChatView.vue";
 import type { StoreData } from "@/types/StoreData";
+import type { Group } from "@/types/Group";
+import { getGroupById } from "@/util/Group";
 
 const store: Store<StoreData> = useStore();
 
-const selectedListing: Ref<string> = ref("Public");
+const onChatSelected = async (id: string) => {
+  selectedChat.value = await getGroupById(store, id);
+};
+
+const selectedChat: Ref<Group> = ref(Object.values(store.state.groupById)[0]);
 
 onMounted(() => {
   if (!store || !store.state.user) {
@@ -49,10 +55,6 @@ onMounted(() => {
     });
   }
 });
-
-const onListingSelected = (username: string) => {
-  selectedListing.value = username;
-};
 </script>
 
 <style scoped>

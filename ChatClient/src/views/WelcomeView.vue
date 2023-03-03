@@ -33,6 +33,7 @@ const onJoinClicked = async () => {
       await registerUser(store, username.value);
       router.push("/home");
     } catch (e: any) {
+      console.log(e);
       notify({
         title: "A user with the same username is already in the chat :(",
         type: "error",

@@ -79,7 +79,7 @@ public class ChatController {
      * Get all groups that a user is in
      * @return All groups of a user
      */
-    @RequestMapping("/users")
+    @RequestMapping("/get_groups/user")
     @ResponseBody
     public ArrayList<Group> GetGroupsOfUser(@RequestBody User user) {
         ArrayList<Group> result = new ArrayList<>();
@@ -89,6 +89,16 @@ public class ChatController {
             }
         });
         return result;
+    }
+
+    /**
+     * Given a group id return the group
+     * @return The group associated with the id
+     */
+    @RequestMapping("/get_group")
+    @ResponseBody
+    public Group GetGroupById(@RequestBody String id) {
+        return groups.get(id);
     }
 
     /**
@@ -106,7 +116,7 @@ public class ChatController {
      * @param message The message sent
      */
     @MessageMapping("/private-message")
-    public Message ReceivePrivatMessage(@Payload Message message) {
+    public Message ReceivePrivateMessage(@Payload Message message) {
         try {
             Group group = groups.get(message.getReceiverId());
             group.SendMessageToMembers(simpMessagingTemplate, message);

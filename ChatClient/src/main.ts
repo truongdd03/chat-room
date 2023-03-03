@@ -26,7 +26,8 @@ const store: Store<StoreData> = createStore({
   state() {
     return {
       isConnected: false,
-      messages: { Public: [] },
+      messages: {},
+      groupById: {},
     };
   },
 });

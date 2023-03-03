@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import Multiselect from "@vueform/multiselect";
-import { getUsernames } from "@/util/User";
+import { getUsernames } from "@/util/Users";
 import { ref, type Ref } from "vue";
 
 const emit = defineEmits(["add-user"]);
