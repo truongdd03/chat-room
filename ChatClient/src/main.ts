@@ -13,11 +13,12 @@ import {
   faPaperPlane,
   faPlusCircle,
   faSearch,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import type { StoreData } from "./types/StoreData";
 
-const icons = [faSearch, faEllipsis, faPaperPlane, faPlusCircle];
+const icons = [faSearch, faEllipsis, faPaperPlane, faPlusCircle, faTimes];
 
 icons.forEach((icon) => library.add(icon));
 

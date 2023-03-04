@@ -28,13 +28,8 @@
 import Multiselect from "@vueform/multiselect";
 import { getUsernames } from "@/util/Users";
 import { ref, type Ref } from "vue";
-import { addGroup } from "@/util/Group";
-import { useStore, type Store } from "vuex";
-import type { StoreData } from "@/types/StoreData";
 
-const store: Store<StoreData> = useStore();
-
-const emit = defineEmits(["select-chat"]);
+const emit = defineEmits(["create-group"]);
 
 const members: Ref<Array<string>> = ref([]);
 
@@ -42,15 +37,8 @@ const users: Ref<Array<string>> = ref([]);
 
 const createGroup = async () => {
   if (members.value.length != 0) {
-    let groupName = members.value[0];
-    if (members.value.length > 1) {
-      // Ask for group name
-
-    }
-    const id = await addGroup(members.value, groupName);
-    store.state.messages[id] = [];
+    emit("create-group", members.value);
     members.value = [];
-    emit("select-chat", id);
   }
 };
 

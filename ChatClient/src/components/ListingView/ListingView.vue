@@ -2,7 +2,7 @@
   <div class="wrapper">
     <ListingHeader
       style="width: 100%"
-      @select-chat="selectListing"
+      @create-group="onCreateGroup"
     ></ListingHeader>
     <div class="modals-wrapper">
       <ListingModal
@@ -29,10 +29,14 @@ defineProps({
   selectedChat: Object as () => Group,
 });
 
-const emit = defineEmits(["select-chat"]);
+const emit = defineEmits(["select-chat", "create-group"]);
 
 const selectListing = (username: string) => {
   emit("select-chat", username);
+};
+
+const onCreateGroup = (members: string[]) => {
+  emit("create-group", members);
 };
 </script>
 

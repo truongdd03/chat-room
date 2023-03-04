@@ -9,6 +9,7 @@
           style="width: 100%; height: 100%"
           :selected-chat="selectedChat"
           @select-chat="onChatSelected"
+          @create-group="onCreateGroup"
         ></ListingView>
       </Pane>
       <Pane min-size="40">
@@ -18,6 +19,12 @@
         ></ChatView>
       </Pane>
     </Splitpanes>
+    <GroupNameModal
+      v-if="displayGroupModal"
+      :members="members"
+      @select-chat="onChatSelected"
+      @close="displayGroupModal = false"
+    ></GroupNameModal>
   </div>
 </template>
 
@@ -33,15 +40,18 @@ import "splitpanes/dist/splitpanes.css";
 import NavBar from "@/components/NavBar.vue";
 import ListingView from "@/components/ListingView/ListingView.vue";
 import ChatView from "@/components/ChatView/ChatView.vue";
+import GroupNameModal from "@/components/GroupNameModal.vue";
 import type { StoreData } from "@/types/StoreData";
 import type { Group } from "@/types/Group";
 import { getGroupById } from "@/util/Group";
 
 const store: Store<StoreData> = useStore();
 
+const displayGroupModal: Ref<boolean> = ref(false);
+const members: Ref<Array<string>> = ref([]);
+
 const onChatSelected = async (id: string) => {
   selectedChat.value = await getGroupById(store, id);
-  console.log(selectedChat.value);
 };
 
 const selectedChat: Ref<Group> = ref(Object.values(store.state.groupById)[0]);
@@ -56,6 +66,11 @@ onBeforeMount(() => {
     });
   }
 });
+
+const onCreateGroup = (groupMembers: Array<string>) => {
+  members.value = groupMembers;
+  displayGroupModal.value = true;
+};
 </script>
 
 <style scoped>
