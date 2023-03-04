@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="store && store.state.user">
     <div class="navbar-wrapper">
       <NavBar></NavBar>
     </div>
@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import router from "@/router";
 import { notify } from "@kyvg/vue3-notification";
-import { onMounted, ref, type Ref } from "vue";
+import { onBeforeMount, ref, type Ref } from "vue";
 import { Store, useStore } from "vuex";
 
 import { Splitpanes, Pane } from "splitpanes";
@@ -41,11 +41,12 @@ const store: Store<StoreData> = useStore();
 
 const onChatSelected = async (id: string) => {
   selectedChat.value = await getGroupById(store, id);
+  console.log(selectedChat.value);
 };
 
 const selectedChat: Ref<Group> = ref(Object.values(store.state.groupById)[0]);
 
-onMounted(() => {
+onBeforeMount(() => {
   if (!store || !store.state.user) {
     router.push("/");
   } else {

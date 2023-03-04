@@ -1,9 +1,12 @@
 import type { Message } from "@/types/Message";
 import type { StoreData } from "@/types/StoreData";
 import type { Store } from "vuex";
+import { getGroupById } from "./Group";
 
 export const onMessageReceived = (store: Store<StoreData>, payload: any) => {
   const payloadData = JSON.parse(payload.body);
+
+  console.log("payload", payloadData);
 
   if (payloadData.status == "MESSAGE") {
     const { receiverId } = payloadData;
@@ -15,6 +18,11 @@ export const onMessageReceived = (store: Store<StoreData>, payload: any) => {
     if (senderName != store.state.user?.username) {
       store.state.messages[receiverId].push(payloadData);
     }
+    if (!store.state.groupById[receiverId]) {
+      getGroupById(store, receiverId);
+    }
+
+    console.log(store.state.messages);
   }
 };
 

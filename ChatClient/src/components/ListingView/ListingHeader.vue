@@ -3,9 +3,11 @@
     <div class="icon-text">
       <span class="input-wrapper">
         <Multiselect
-          v-model="username"
+          class="is-primary"
+          v-model="members"
           :options="users"
           :searchable="true"
+          mode="tags"
           placeholder="Enter username..."
           @click="loadUsers"
         />
@@ -13,7 +15,7 @@
       <span class="icon-wrapper">
         <font-awesome-icon
           class="icon has-text-primary"
-          @click="addUser"
+          @click="createGroup"
           icon="fa-solid fa-plus-circle"
           inverse
         />
@@ -26,29 +28,39 @@
 import Multiselect from "@vueform/multiselect";
 import { getUsernames } from "@/util/Users";
 import { ref, type Ref } from "vue";
+import { addGroup } from "@/util/Group";
+import { useStore, type Store } from "vuex";
+import type { StoreData } from "@/types/StoreData";
 
-const emit = defineEmits(["add-user"]);
+const store: Store<StoreData> = useStore();
 
-const username: Ref<string> = ref("");
+const emit = defineEmits(["select-chat"]);
+
+const members: Ref<Array<string>> = ref([]);
 
 const users: Ref<Array<string>> = ref([]);
 
-const addUser = () => {
-  if (username.value != "") {
-    emit("add-user", username.value);
-    username.value = "";
+const createGroup = async () => {
+  if (members.value.length != 0) {
+    let groupName = members.value[0];
+    if (members.value.length > 1) {
+      // Ask for group name
+
+    }
+    const id = await addGroup(members.value, groupName);
+    store.state.messages[id] = [];
+    members.value = [];
+    emit("select-chat", id);
   }
 };
 
 const loadUsers = async () => {
   users.value = await getUsernames();
-  console.log(users.value);
 };
 </script>
 
 <style scoped>
 .listing-header {
-  height: 100%;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -57,6 +69,9 @@ const loadUsers = async () => {
 .icon-text {
   height: 100%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .input-wrapper {
   width: calc(100% - 30px);
@@ -72,6 +87,21 @@ const loadUsers = async () => {
   align-items: center;
   margin-left: 10px;
 }
+
+.input {
+  background-color: rgb(54, 54, 54);
+}
+
+.modal {
+  position: absolute;
+  background-color: yellow;
+}
 </style>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
+
+<style>
+.multiselect-tags-search {
+  background-color: rgb(54, 54, 54);
+}
+</style>

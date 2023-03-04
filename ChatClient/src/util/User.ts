@@ -18,7 +18,6 @@ export const registerUser = async (
   store.state.user = user;
 
   const userGroups = await getGroupsOfUser(store);
-  console.log(userGroups);
   userGroups.forEach((group: Group) => {
     store.state.messages[group.id] = [];
     store.state.groupById[group.id] = group;

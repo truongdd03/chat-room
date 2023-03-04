@@ -22,7 +22,7 @@
           <p class="is-size-6">
             Hi
             <span class="has-text-primary">{{
-              store.state.user!.username
+              store.state.user?.username
             }}</span
             >!
           </p>

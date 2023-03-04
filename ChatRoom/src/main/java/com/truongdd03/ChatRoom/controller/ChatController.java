@@ -1,5 +1,6 @@
 package com.truongdd03.ChatRoom.controller;
 
+import com.truongdd03.ChatRoom.model.CreateGroupRequest;
 import com.truongdd03.ChatRoom.model.Group;
 import com.truongdd03.ChatRoom.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -31,7 +31,6 @@ public class ChatController {
      */
     @PostMapping("/register")
     public ResponseEntity<String> RegisterUser(@RequestBody User user) {
-        System.out.println(groups.toString());
         if (users.contains(user)) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
@@ -55,14 +54,21 @@ public class ChatController {
 
     /**
      * Add a new group
-     * @param group The group to add
+     * @param request The new group's information
+     * @return The group's id
      */
-    @PostMapping("/new_group")
-    public ResponseEntity<String> CreateGroup(@RequestBody Group group) {
+    @RequestMapping("/new_group")
+    @ResponseBody
+    public String CreateGroup(@RequestBody CreateGroupRequest request) {
         String id = UUID.randomUUID().toString();
-        group.setId(id);
-        groups.put(id, group);
-        return ResponseEntity.ok().build();
+        HashSet<User> members = new HashSet<>();
+        request.getUsernames().forEach(username -> {
+            members.add(new User(username));
+        });
+
+        groups.put(id, new Group(id, request.getGroupName(), members));
+        System.out.println(groups.toString());
+        return id;
     }
 
     /**
@@ -98,17 +104,7 @@ public class ChatController {
     @RequestMapping("/get_group")
     @ResponseBody
     public Group GetGroupById(@RequestBody String id) {
-        return groups.get(id);
-    }
-
-    /**
-     * Function to handle a public message sent
-     * @param message The message sent
-     */
-    @MessageMapping("/message")
-    @SendTo("/chatroom/public")
-    public Message ReceivePublicMessage(@Payload Message message) {
-        return message;
+        return groups.get(id.substring(0, id.length() - 1));
     }
 
     /**
@@ -131,7 +127,12 @@ public class ChatController {
      * @param user The user to remove
      */
     private void RemoveUserFromGroups(User user) {
-        groups.forEach((key, group) -> group.RemoveMember(user));
+        groups.forEach((key, group) -> {
+            group.RemoveMember(user);
+            if (group.getMembers().size() == 0 && !Objects.equals(key, "public")) {
+                groups.remove(key);
+            }
+        });
     }
 
 }

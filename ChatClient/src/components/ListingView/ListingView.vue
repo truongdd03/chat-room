@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <ListingHeader
-      style="height: 50px; width: 100%"
-      @add-user="onAddUser"
+      style="width: 100%"
+      @select-chat="selectListing"
     ></ListingHeader>
     <div class="modals-wrapper">
       <ListingModal
@@ -10,7 +10,7 @@
         v-bind:key="group.id"
         :chat-info="group"
         :selected-chat="selectedChat"
-        @select-chat="selectListing($event)"
+        @select-chat="selectListing"
       ></ListingModal>
     </div>
   </div>
@@ -25,8 +25,6 @@ import type { Group } from "@/types/Group";
 
 const store: Store<StoreData> = useStore();
 
-console.log(store.state.groupById);
-
 defineProps({
   selectedChat: Object as () => Group,
 });
@@ -35,11 +33,6 @@ const emit = defineEmits(["select-chat"]);
 
 const selectListing = (username: string) => {
   emit("select-chat", username);
-};
-
-const onAddUser = (username: string) => {
-  store.state.messages[username] = [];
-  selectListing(username);
 };
 </script>
 
@@ -50,6 +43,5 @@ const onAddUser = (username: string) => {
 
 .modals-wrapper {
   overflow-y: scroll;
-  height: calc(100% - 50px);
 }
 </style>
