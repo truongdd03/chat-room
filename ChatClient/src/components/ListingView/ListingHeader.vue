@@ -28,6 +28,10 @@
 import Multiselect from "@vueform/multiselect";
 import { getUsernames } from "@/util/Users";
 import { ref, type Ref } from "vue";
+import { useStore, type Store } from "vuex";
+import type { StoreData } from "@/types/StoreData";
+
+const store: Store<StoreData> = useStore();
 
 const emit = defineEmits(["create-group"]);
 
@@ -37,6 +41,10 @@ const users: Ref<Array<string>> = ref([]);
 
 const createGroup = async () => {
   if (members.value.length != 0) {
+    const currentUsername = store.state.user!.username;
+    if (!members.value.includes(currentUsername)) {
+      members.value.push(currentUsername);
+    }
     emit("create-group", members.value);
     members.value = [];
   }

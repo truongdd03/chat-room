@@ -9,10 +9,25 @@
         {{ getLocalTime(message.date) }}
       </p>
       <MyMessage
-        v-if="message.senderName == store.state.user!.username"
+        v-if="message.status == Status.MESSAGE && message.senderName == store.state.user!.username"
         :message="message"
       ></MyMessage>
-      <OtherMessage v-else :message="message"></OtherMessage>
+      <OtherMessage
+        v-else-if="message.status == Status.MESSAGE"
+        :message="message"
+      ></OtherMessage>
+      <p
+        v-else-if="message.status == Status.JOIN"
+        class="has-text-centered has-text-grey"
+      >
+        {{ message.senderName }} joined the chat!
+      </p>
+      <p
+        v-else-if="message.status == Status.LEAVE"
+        class="has-text-centered has-text-grey"
+      >
+        {{ message.senderName }} left the chat :(
+      </p>
     </div>
   </div>
 </template>
@@ -24,6 +39,7 @@ import MyMessage from "./MyMessage.vue";
 import OtherMessage from "./OtherMessage.vue";
 import { getLocalTime, shouldDisplayDate } from "@/util/Date";
 import type { StoreData } from "@/types/StoreData";
+import { Status } from "@/types/Status";
 
 const store: Store<StoreData> = useStore();
 

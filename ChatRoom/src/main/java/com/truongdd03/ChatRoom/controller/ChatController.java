@@ -37,7 +37,7 @@ public class ChatController {
                     .body("There is already an user with this username in the chat.");
         }
         users.add(user);
-        groups.get("public").AddMember(user);
+        groups.get("public").AddMember(simpMessagingTemplate, user);
         return ResponseEntity.ok().build();
     }
 
@@ -129,7 +129,7 @@ public class ChatController {
     private void RemoveUserFromGroups(User user) {
         ArrayList<String> toDeleted = new ArrayList<>();
         groups.forEach((key, group) -> {
-            group.RemoveMember(user);
+            group.RemoveMember(simpMessagingTemplate, user);
             if (group.getMembers().size() == 0 && !Objects.equals(key, "public")) {
                 toDeleted.add(key);
             }

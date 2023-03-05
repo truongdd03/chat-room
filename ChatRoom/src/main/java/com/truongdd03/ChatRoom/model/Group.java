@@ -3,9 +3,8 @@ package com.truongdd03.ChatRoom.model;
 import lombok.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -17,20 +16,29 @@ public class Group {
     private String name;
     private HashSet<User> members;
 
+    private String GetCurrentTime() {
+        Date date = new Date();
+        return date.toString();
+    }
+
     /**
      * Add a member to this group
      * @param user The user to add
      */
-    public void AddMember(User user) {
+    public void AddMember(SimpMessagingTemplate simpMessagingTemplate, User user) {
         members.add(user);
+        Message joinMsg = new Message(user.getUsername(), id, "", GetCurrentTime(), Status.JOIN);
+        SendMessageToMembers(simpMessagingTemplate, joinMsg);
     }
 
     /**
      * Remove a user from members
      * @param user The user to remove
      */
-    public void RemoveMember(User user) {
+    public void RemoveMember(SimpMessagingTemplate simpMessagingTemplate,User user) {
         members.remove(user);
+        Message joinMsg = new Message(user.getUsername(), id, "", GetCurrentTime(), Status.LEAVE);
+        SendMessageToMembers(simpMessagingTemplate, joinMsg);
     }
 
     /**
