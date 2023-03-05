@@ -47,8 +47,8 @@ public class ChatController {
      */
     @PostMapping("/unregister")
     public ResponseEntity<String> UnregisterUser(@RequestBody User user) {
-        users.remove(user);
         RemoveUserFromGroups(user);
+        users.remove(user);
         return ResponseEntity.ok().build();
     }
 
@@ -127,12 +127,14 @@ public class ChatController {
      * @param user The user to remove
      */
     private void RemoveUserFromGroups(User user) {
+        ArrayList<String> toDeleted = new ArrayList<>();
         groups.forEach((key, group) -> {
             group.RemoveMember(user);
             if (group.getMembers().size() == 0 && !Objects.equals(key, "public")) {
-                groups.remove(key);
+                toDeleted.add(key);
             }
         });
+        toDeleted.forEach(groups::remove);
     }
 
 }

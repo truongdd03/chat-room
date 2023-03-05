@@ -49,7 +49,6 @@ public class Group {
      */
     public void SendMessageToMembers(SimpMessagingTemplate simpMessagingTemplate, Message message) {
         for (User user : members) {
-            System.out.println(user);
             simpMessagingTemplate.convertAndSendToUser(user.getUsername(), "/private", message);
         }
     }
