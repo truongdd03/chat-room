@@ -10,11 +10,16 @@ A real-time chat web application created with Java and Vue.
 
 ### Backend
 
-Runs `ChatRoom/src/main/java/com/truongdd03/ChatRoom/ChatRoomApplication.java`
+```
+cd ./ChatRoom
+mvn package
+java -jar target/ChatRoom-0.0.1-SNAPSHOT.jar
+```
 
 ### Frontend
 
 ```
+cd ./ChatClient
 npm install
 npm run dev
 ```
