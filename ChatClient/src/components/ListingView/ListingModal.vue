@@ -58,7 +58,13 @@ const updateMessage = () => {
   if (!messages) {
     lastMessage.value = null;
   } else {
-    lastMessage.value = messages[messages.length - 1];
+    let i = messages.length - 1;
+    while (i >= 0 && messages[i].message == "") i -= 1;
+    if (i < 0) {
+      lastMessage.value = null;
+    } else {
+      lastMessage.value = messages[i];
+    }
   }
 };
 
